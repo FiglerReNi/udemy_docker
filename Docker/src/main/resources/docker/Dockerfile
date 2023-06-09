@@ -8,7 +8,7 @@ RUN apt install -y default-jdk
 
 VOLUME /tmp
 # hozzáadjuk a jdk-hoz a futtatandó jar-t
-ADD /udemy_docker-0.0.1-SNAPSHOT.jar myapp.jar
+ADD /ApplicationSimple-0.0.1-SNAPSHOT.jar myapp.jar
 # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html
 # https://www.quora.com/Bash-shell-Why-is-the-touch-command-named-as-such
 RUN sh -c 'touch /myapp.jar'
