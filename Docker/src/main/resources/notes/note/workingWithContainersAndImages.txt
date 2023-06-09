@@ -1,0 +1,102 @@
+1. feladat Mongo db pull and run
+https://hub.docker.com/_/mongo
+docker run mongo
+  -> letölti, elíndítja és kap egy portot a containeren belül 27017, ez nem kifelé port,
+    ezzel még nem érjük el a gépünkön, csak a dockeren belül.
+  -> Linkelni tudjuk egy alkalmazáshoz ami használja,ha ez az alkalmazás egy másik containerben van a saját dockerünkben.
+  -> A parancs végén : után megadhatunk taget, amivel meg tudjuk adni a verziószámot is,
+    de ha ilyet nem adunk meg akkor a legutolsót tölti le.
+  -> Ezzel a paranccsal csak addig fut amíg a terminál nyitva van és nem tudok ugyanabban a terminálban mást csinálni.
+docker run -d mongo
+  -> a háttérben fogja futtatni és a terminált tudjuk másra használni
+docker run -p 27017:27017 -d mongo
+  -> kivezetjük a fenti porton a gépünkre a mongo db-t. Így a gépünkön futó alkalmazás tud majd csatlakozni a dockerben futó mongo db-hez
+
+2. feladat Mongo db és Spring boot kapcsolat
+Elindítjuk a spring boot alkalmazást a gépünkön és elindítjuk a mongo db-t a dockerben és működik
+  -> a Spring Boot alkalmazásba csak a mongoDB-hez tartozó dependency-t kell betenni és semmi egyéb beállítás nem kell
+  -> application.properties-be azonban bármi felülírható, például ha két mongoDB-m van és az egyik másik porton fut,
+    felülírható a port
+docker logs -f container azonosító vagy név
+  -> logok mutatása
+
+Docker Images:
+ -> Csinálhatunk saját docker registry-t például egy céges környezetben, ilyenkor nem a defult lesz a registeryhost,
+  hanem ahol elérjük a sajátjainkat, a tag name pedig lehet verzió is, nem feltétlenül a latest
+
+Docker Files:
+  -> Ez mondja meg, hogyan épül fel az image
+  -> Parancsokból áll.
+     Egy-egy parancs egy-egy layert hoz létre
+     Meg lehet azt is csinálni, hogy sok parancsot egyként futtatunk és egy layer lesz belőle csak, ekkor: run set -x\ parancsot kell használni
+     A layerek összessége az image
+  -> Helye pl a mongo-hoz:
+    https://hub.docker.com/_/mongo -> ezen az oldalon a DockerFile egy github repository-hoz vezet.
+    Minden image-hez tartozó DockerFile-nak van egy repository-ja:
+    https://github.com/docker-library/mongo/blob/685ebeabb78e90b579a7624d2a231646e2866258/6.0/Dockerfile
+    (docker-library/mongo)
+  -> A DockerFile-ba FROM-al behúzhatunk másik image-ket, a Mongo például azzal indul, hogy behúz valamilyen linux oprendszer változatot,
+    a 6-os az ubuntut. Ehhez elég megadni az image nevét és a taget.
+    A behúzott ubuntu image layereit használja a mongo image-ünk is, a két image osztozik ezeken a layereken.
+    Ha van egy harmadik image, ami ugyanúgy az ubuntun alapul, akkor ő is ezeken a layereken osztozik, a másik containerben.
+    A közös layereknek minden image-ben ugyanaz lesz a hash kódja, mint az eredetiben ahonnan származik.
+    És mivel a gazda op rendszerén fut a docker és az összes container, ezért tudja több conatiner ugyanazt az image-t használni.
+  -> A Docker daemon az image-ből létrehozza a containert.
+
+Storage:
+  -> A docker image layerei fixek és nem írhatóak át/felül.
+  -> Ez alól egy kivétel van, ahová az adatok íródnak, ez a legutolsó layer.
+  -> Egy újraindítás során az alap működés szerint a dockerből futtatott mongo db-nkből eltűnik az adat, mivel az utolsó layer is mindig újragenerálódik ebben az esetben.
+    A régi konténerek azonban helyet foglalnak, mert maradhatnak vissza belőle file-ok, darabok, amiket különböző parancsokkal tudunk takarítani.
+    Ezt a viselkedést azonban felül lehet írni és lehet csinálni egy fix adatbázist.
+    Vagyis ennek a layernek adhatunk fix helyet a gépünkön, amit minden indításnál használ a mongo konténerünk és így megmarad az adat.
+
+Portok:
+  A Docker file-ok alján megtalálható, hogy milyen portokat tudunk használni, a docker hub-on az image leírás pedig segít abban melyik mire szolgál
+
+3.feladat fix hely az adatok tárolására a mongo konténerhez
+  (https://hub.docker.com/_/mongo)
+  -> OSX régebbi verziók és Windows 10 alatt, ahol VirtualBoxa-al működik csak a docker, problémásabb lehet a megoldás
+  -> A többi esetben:
+    Létre kell hoznunk ehhez egy mappát, amit hozzá akarunk kötni a konténerhez.
+    Belelépünk ebbe a mappába.
+    Következő parancs kell, amiben a -v-vel jelöljük, hogy fix helyet szeretnénk hozzárendelni:
+    -v C:\<saját mappánk elérési útja>:/data/db ---> ezt az indító run parancsba kell beilleszteni
+    Tehát:
+    docker run -p 27017:27017 -v C:\Users\figlerr\JAVA\db:/data/db -d mongo (cmd)
+    docker run -p 27017:27017 -v C:/Users/figlerr/JAVA/db:/data/db -d mongo (gitBash)
+  -> history | gerp mongo korábban futtatott mongo-t tartalmazó parancsok listája
+  -> a fenti listából a parancs számával tudjuk újrafuttatni ugyanazt a parancsot: !575
+
+4.feladat RabbitMQ futtatás
+  https://hub.docker.com/_/rabbitmq - olyan változat kell ami management console-os
+  https://github.com/docker-library/rabbitmq/blob/b41c10aaddc91da62f96994ab62e9d1ea590c455/3.12-rc/ubuntu/management/Dockerfile
+  https://github.com/docker-library/rabbitmq/blob/d4a5dd93da59ff2d187bf9ee646496af737ac10f/3.12-rc/ubuntu/Dockerfile
+  Parancs:
+    docker run -d --hostname docker-rabbitmq --name rabbitmq -p 8080:15672 -p 5671:5671 -p 5672:5672 rabbitmq:3-management
+  -> három portot is be kell állítani kifelé:
+        Ezen működik a console:
+          management console: 8080-ra állítjuk az 15672-t ami a managment verzió portja, ezt a dockerhub írja is a management plugin alatt
+        Ezeken keresztül tudunk beszélni a rabbitmq-val kívülről:
+          TLS connection: 5671
+          non encrypted connection: 5672
+  -> a hostname-t meg kell adni és a name-t is
+
+5.feladat Mysql dockerben
+  https://hub.docker.com/_/mysql
+  https://github.com/docker-library/mysql/blob/611aa464a96f69e5d4d4172b14ca829ded162b42/8.0/Dockerfile.debian
+  Parancs:
+  docker run -p 9991:3306 --name mysql-freni -v C:/Users/figlerr/JAVA/db:/var/lib/mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql
+  - port beállítása
+  - storage hozzárendelése
+  - root beállítása null password-el -> environment variables
+  Lehet a mysql docker konténert egy másik konténerhez linkelni, amiben például az alkalmazásunk van, ekkor a mysql-nek mindenképp a 3306-os portot kell használnia.
+
+
+Parancsok:
+ps: listáz
+-a: leállított konténereket adja vissza
+-f: filtert adhatunk meg utána pl.: dangling=true (untagged image-k keresése, ezek olyankor lehetnek, ha sajátot készítünk
+  és az eredeti latest verziót felülírjuk egy új latest verzióval. Ilyenkor az első tag nélkül marad és foglalja a helyet )
+
+

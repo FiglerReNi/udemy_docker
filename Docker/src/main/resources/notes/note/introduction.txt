@@ -1,0 +1,30 @@
+Parancsok:
+  https://springframework.guru/docker-cheat-sheet-for-spring-devlopers/
+
+Docker:
+  Fejlesztői környezetet tudunk benne létrehozni, ami független lesz a gépünktől
+
+Előnyök:
+- Jóval kevesebb erőforrást igényel mint a virtuális gépek, mert ott az egyes vitruális gépeknek saját operációs rendszerük van
+- Egyszerűen válhatunk a fejlesztői környezetek között
+- Hordozható, könnyű lemásolni és újrafelhasználni az image-ket másik szerveren
+- MInden környezetben ugyanúgy fog viselkedni, mert nem függ a külső környezettől
+- Már előre elkészítetteket is tudunk keresni és használni
+  -> hub.docker.com
+
+Futtatás
+- MAC-en fut közvetlenül, Windows 10-től felfelé egy port segítségével tud futni
+- Egyéb operációs rendszerekhez kell a VirtualBox, aminek a segítségével lesz egy Linux virtuális gép a dockerhez
+
+Felhasználói felületek
+- Docker Desktop
+- KiteMatic
+
+Feladatok:
+1. hello-world image működjön
+parancs: docker run hello-world
+
+2. hello-world-nginx működjön
+docker pull kitematic/hello-world-nginx
+-> docker desktop-ban run, itt meg lehet adni a külső portot, hogy tudjunk csatlakozni hozzá
+-> weben a localhost:port-al megnézni, hogy működik-e

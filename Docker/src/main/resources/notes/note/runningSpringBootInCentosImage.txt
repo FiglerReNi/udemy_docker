@@ -1,0 +1,38 @@
+Saját image létrehozása:
+  -> Kell találni hozzá egy base image-t.
+    Erre két megoldás szokott lenni:
+      -> vagy egy legegyszerűbbet szoktak választani, amiben kevés minden van.
+      -> vagy egy teljes funkcionalitású Linux verziót választanak (RedHat - fizetős, centOS - ingyenes, debian stb)
+
+1.feladat Debian image + JDK manuálisan
+  https://hub.docker.com/_/debian
+  -> debian image: docker run -d debian --> ezzel nem fog futni folyamatosan, mert nincs feladata
+    https://osric.com/chris/accidental-developer/2017/08/running-centos-in-a-docker-container/
+  -> docker run -d -i debian -> így folyamatosan fut (i = interactive mód)
+  -> belépés a debianba:
+      -> a runt nem háttérben futtatjuk: docker run -i -t
+      -> vagy docker exec -it <container_name> bash
+  -> navigálás centosban:
+      whoami - felhasználó lekérés
+      ls - file-ok listája
+      ps -e - futó folyamatok kilistázása (ehhez kell telepíteni ezt: apt-get update && apt-get install procps)
+  -> java telepítése:
+      apt install default-jdk
+  -> A debian nem tartalmaz java-t, ezért miután lehúztuk az image-t és elindítottuk a konténert a konténeren belül tudunk a debian-unkra
+    programokat telepíteni, például JDK-t, viszont ezt így nem tudjuk elmenteni, hanem minden egyes konténer újraindítás után meg kellene csinálni.
+    Ezért van a DockerFile, amibe a fenti lépéseket/parancsokat bele tudjuk írni, és úgy készül el az image, hogy ezek a parancsok egy-egy layer lesznek,
+    így már alapból ezek benne vannak. Így lefutnak amikor készül/indul a konténer.
+
+2.feladat Spring Boot Aplication futtatása dockerből:
+  Lépések:
+    jar file létrehozása
+      Kétféle jar van, nekünk a fat jar fog kelleni
+      A sima csak a classokat tartalmazza
+        -> .jar.original néven
+      A fat jar tartalmazza az összes dependency-t letöltve, vagyis ezeknek a jar-jait is. És ez futtatható JVM-el
+        -> .jar néven
+    Dockerfile létrehozása (recept az image-hez)
+    image létrehozása a DockerFile alapján
+      -> docker build -t <vmi name>:<tag vagy ez a része elhagyható, akkor automatikusan latest lesz> . (a '.' az elérési út ahol a DockerFile van = adott mappa)
+    conténer elindítása
+      -> docker run -d -p 8080:8080 spring-boot-docker
