@@ -16,6 +16,9 @@
   <description>ApplicationSimple</description>
   <properties>
     <java.version>1.8</java.version>
+    <!--ha van dockerhub account akkor ide a felhasználó név jön, mert ha az image-t feltöltjük publikusra ez lesz az előtagja a hubon. -->
+    <docker.image.prefix>figlerr</docker.image.prefix>
+    <docker.image.name>spring-boot-docker</docker.image.name>
   </properties>
   <dependencies>
     <dependency>
@@ -35,6 +38,31 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <!-- https://dmp.fabric8.io/-->
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.43.0</version>
+        <configuration>
+          <dockerHost>npipe:////./pipe/docker_engine</dockerHost>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <name>${docker.image.prefix}/${docker.image.name}</name>
+              <build>
+                <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+                <tags>
+                  <tag>latest</tag>
+                  <tag>${project.version}</tag>
+                </tags>
+              </build>
+            </image>
+          </images>
+        </configuration>
       </plugin>
     </plugins>
   </build>

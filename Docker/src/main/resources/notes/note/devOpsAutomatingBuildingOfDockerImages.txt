@@ -1,0 +1,17 @@
+Eszközök:
+  Build tool-ok
+    Maven - ez a legelterjedtebb, stabil
+    Gradle - egyre népszerűbb
+    Ant - nem használjuk
+  Plugin a build tool-hoz docker image build miatt:
+    Fabric 8 Docker Plugin for Maven
+
+Cél:
+  Docker Image generálás maven segítségével, amiben benne van a futtatható jar file
+
+Lépések:
+  ApplicationSimple - létrehozása
+  Fabric 8 plugin - pom.xml-be
+  Konfigurálás - https://dmp.fabric8.io/
+  Docker file létrehozása
+
