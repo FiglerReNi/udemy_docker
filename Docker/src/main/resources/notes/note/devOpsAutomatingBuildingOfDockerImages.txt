@@ -14,4 +14,5 @@ Lépések:
   Fabric 8 plugin - pom.xml-be
   Konfigurálás - https://dmp.fabric8.io/
   Docker file létrehozása
+  mvn clean package docker:build parancs futtatása
 
