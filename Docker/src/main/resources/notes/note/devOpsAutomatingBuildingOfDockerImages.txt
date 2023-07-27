@@ -14,5 +14,6 @@ Lépések:
   Fabric 8 plugin - pom.xml-be
   Konfigurálás - https://dmp.fabric8.io/
   Docker file létrehozása
-  mvn clean package docker:build parancs futtatása
+  mvn clean package docker:build parancs futtatása - image elkészítése
+  docker run -d -p 8080:8080 figlerr/spring-boot-docker - futtatás
 
