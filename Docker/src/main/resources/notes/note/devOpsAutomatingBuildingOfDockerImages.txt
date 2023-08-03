@@ -23,7 +23,7 @@ Saját image feltöltése a DockerHub-ra:
   - Ilyen repository eszköz az artifactory, a server url-t kell beállítani a dockerben, hogy lehessen rá pusholni
   - Push a DockerHubra:
       Be kell állítani a docker felhasználó nevünk és jelszavunk a mavennek:
-        Maven -> Create settings.xml
+        Maven -> Create settings.xml (ez a saját .m2 repository mappánkba mentődik, mint helyi beállítás)
         <servers>
           <server>
             <id>docker.io</id>
@@ -36,4 +36,12 @@ Saját image feltöltése a DockerHub-ra:
 
 Probléma:
   - Ha átírjuk a pom.xml-ben a verziószámot, akkor a Dockerfile-ban is át kell írni kézzel.
+  - Megoldás:
+      * Automatikusan generáljuk a dockerFile-t.
+      * Ehhez kell csinálnunk egy template-t, amiben már tudunk maven változókat használni, mert a Fabric8 ezt nem támogatja.
+        Ezért a mostani DockerFile-ba nem írhatunk szimplán ilyet.
+      * Groovy segítségével tudunk ebből a template-ből DockerFile-t generálni.
+      * Ehhez bele kell tennünk a pom.xml-be egy plugint, hogy tudjuk futnatni a groovy scriptet ami a generálást végzi.
+      * Módosítani kell a Fabric8 plugin útvonal beállításait is, mert a groovy más útvonalra teszi a DockerFile-t mint ahol most van.
+
 

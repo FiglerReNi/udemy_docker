@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.9</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  <groupId>com.example</groupId>
+  <artifactId>ApplicationDockerTemplate</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>ApplicationDockerTemplate</name>
+  <description>ApplicationDockerTemplate</description>
+  <properties>
+    <java.version>1.8</java.version>
+    <!--ha van dockerhub account akkor ide a felhasználó név jön, mert ha az image-t feltöltjük publikusra ez lesz az előtagja a hubon. -->
+    <docker.image.prefix>figlerr</docker.image.prefix>
+    <docker.image.name>spring-boot-docker</docker.image.name>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <!-- https://dmp.fabric8.io/-->
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.43.0</version>
+        <configuration>
+          <dockerHost>npipe:////./pipe/docker_engine</dockerHost>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <name>${docker.image.prefix}/${docker.image.name}</name>
+              <build>
+                <dockerFileDir>${project.basedir}/target/dockerfile</dockerFileDir>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+                <tags>
+                  <tag>latest</tag>
+                  <tag>${project.version}</tag>
+                </tags>
+              </build>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <scripts>
+            <script>file:///${project.basedir}/src/main/scripts/BuildDockerfile.groovy</script>
+          </scripts>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.8</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
