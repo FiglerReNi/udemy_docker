@@ -1,0 +1,6 @@
+Cél:
+  A fabric8 és Maven segítségével a korábbi docker műveletek elvégzése:
+    - container indítás/leállítás
+    - port kapcsolás
+    - environment variable kapcsolás
+    - tárhely hozzáadás
