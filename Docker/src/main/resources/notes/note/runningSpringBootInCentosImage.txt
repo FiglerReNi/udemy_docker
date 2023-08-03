@@ -1,3 +1,5 @@
+Docker
+
 Saját image létrehozása:
   -> Kell találni hozzá egy base image-t.
     Erre két megoldás szokott lenni:

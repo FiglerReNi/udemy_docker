@@ -1,3 +1,5 @@
+ApplicationMongo
+
 1. feladat Mongo db pull and run
 https://hub.docker.com/_/mongo
 docker run mongo
