@@ -17,3 +17,16 @@ Lépések:
   mvn clean package docker:build parancs futtatása - image elkészítése
   docker run -d -p 8080:8080 figlerr/spring-boot-docker - futtatás
 
+Saját image feltöltése a DockerHub-ra:
+  - Céges környezetben általában nem a public dockerhubra töltenek, hanem belső kialakítású repositoryba,
+    ami cégen belül érhető csak el.
+  - Ilyen repository eszköz az artifactory, a server url-t kell beállítani a dockerben, hogy lehessen rá pusholni
+  - Push a DockerHubra:
+      Be kell állítani a docker felhasználó nevünk és jelszavunk a mavennek:
+        Maven -> Create settings.xml
+      Parancs:
+        mvn clean package docker:build docker:push
+
+Probléma:
+  - Ha átírjuk a pom.xml-ben a verziószámot, akkor a Dockerfile-ban is át kell írni kézzel.
+
