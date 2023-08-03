@@ -24,6 +24,13 @@ Saját image feltöltése a DockerHub-ra:
   - Push a DockerHubra:
       Be kell állítani a docker felhasználó nevünk és jelszavunk a mavennek:
         Maven -> Create settings.xml
+        <servers>
+          <server>
+            <id>docker.io</id>
+            <username>username</username>
+            <password>password</password>
+          </server>
+        </servers>
       Parancs:
         mvn clean package docker:build docker:push
 
