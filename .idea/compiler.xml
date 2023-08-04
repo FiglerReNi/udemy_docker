@@ -11,11 +11,13 @@
         <module name="ApplicationSimple" />
         <module name="Docker" />
         <module name="ApplicationMongo" />
+        <module name="ApplicationDockerFromMaven" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ApplicationDockerFromMaven" options="-parameters" />
       <module name="ApplicationDockerTemplate" options="-parameters" />
       <module name="ApplicationMongo" options="-parameters" />
       <module name="ApplicationSimple" options="-parameters" />

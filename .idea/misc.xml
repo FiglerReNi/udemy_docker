@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/ApplicationSimple/pom.xml" />
         <option value="$PROJECT_DIR$/ApplicationMongo/pom.xml" />
         <option value="$PROJECT_DIR$/ApplicationDockerTemplate/pom.xml" />
+        <option value="$PROJECT_DIR$/ApplicationDockerFromMaven/pom.xml" />
       </list>
     </option>
   </component>

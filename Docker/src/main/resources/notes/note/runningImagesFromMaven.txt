@@ -4,3 +4,4 @@ Cél:
     - port kapcsolás
     - environment variable kapcsolás
     - tárhely hozzáadás
+
