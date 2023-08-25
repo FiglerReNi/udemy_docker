@@ -1,3 +1,5 @@
+ApplicationDockerFromMaven
+
 Cél:
   A fabric8 és Maven segítségével a korábbi docker műveletek elvégzése:
     - container indítás/leállítás
