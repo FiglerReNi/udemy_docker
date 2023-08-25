@@ -1,9 +1,27 @@
 ApplicationDockerFromMaven
 
 Cél:
-  A fabric8 és Maven segítségével a korábbi docker műveletek elvégzése:
+  A fabric8 és Maven segítségével a korábbi docker parancsori műveletek elvégzése:
     - container indítás/leállítás
+      A változat:
+        mvn docker:run az alkalmazás fő mappájában
+        ctrl+c a leállítás
+      B változat:
+        mvn docker:start
+          ilyenkor a háttérben fut és a konzolt tudjuk másra használni
+        mvn docker:stop
     - port kapcsolás
+        pom xml konfigurációval lehet
     - environment variable kapcsolás
     - tárhely hozzáadás
 
+Előnyök:
+  A pom.xml-ben nagyon sok Maven+fabric8 konfiguráció megadható.
+  A pom.xml-ben több image is definiálható (pl adatbázis, alkalmazás stb)
+
+Példa alkalmazás és használt eszközök:
+  - alap web alkalmazás localhost:8080 (SpringBoot) -> az oldal látogatásokat akarjuk számolni,
+      minden látogatáskor küldünk egy message-t az MQ-nak
+  - MQ (Rabbit)
+  - Microservice (Spring Integration) -> ez veszi ki az üzeneteket és dolgozza fel az MQ-ból
+  - Adatbázis (MySQL) - a microservice van vele kapcsolatban
