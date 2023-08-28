@@ -1,4 +1,4 @@
-ApplicationDockerFromMaven
+ApplicationDockerFromMaven/PageViewModel/PageViewService/PageViewDao
 
 Cél:
   A fabric8 és Maven segítségével a korábbi docker parancsori műveletek elvégzése:

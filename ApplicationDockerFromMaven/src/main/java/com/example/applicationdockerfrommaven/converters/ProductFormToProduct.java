@@ -7,7 +7,6 @@ import com.example.applicationdockerfrommaven.domain.ProductForm;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 @Component
 public class ProductFormToProduct implements Converter<ProductForm, Product> {

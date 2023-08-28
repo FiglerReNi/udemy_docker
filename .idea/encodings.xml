@@ -8,5 +8,8 @@
     <file url="file://$PROJECT_DIR$/ApplicationSimple/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ApplicationSimple/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Docker/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PageViewDao/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PageViewEventModel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PageViewService/src/main/java" charset="UTF-8" />
   </component>
 </project>

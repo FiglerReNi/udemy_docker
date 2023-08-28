@@ -4,7 +4,11 @@ import com.example.applicationdockerfrommaven.converters.ProductToProductForm;
 import com.example.applicationdockerfrommaven.domain.Product;
 import com.example.applicationdockerfrommaven.domain.ProductForm;
 import com.example.applicationdockerfrommaven.services.ProductService;
+import hu.docker.pageviewmodel.model.PageViewEvent;
+import hu.docker.pageviewservice.pageview.PageViewService;
 import jakarta.validation.Valid;
+import java.util.Date;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +27,9 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    PageViewService pageViewService;
+
     @RequestMapping("/")
     public String redirToList() {
         return "redirect:/product/list";
@@ -31,6 +38,14 @@ public class ProductController {
     @RequestMapping({"/product/list", "/product"})
     public String listProducts(Model model) {
         model.addAttribute("products", productService.listAll());
+
+        PageViewEvent pageViewEvent = new PageViewEvent();
+        pageViewEvent.setPageUrl("/product/list");
+        pageViewEvent.setPageViewDate(new Date());
+        pageViewEvent.setCorrelationId(UUID.randomUUID().toString());
+
+        pageViewService.sendPageViewEvent(pageViewEvent);
+
         return "product/list";
     }
 

@@ -9,6 +9,12 @@
         <option value="$PROJECT_DIR$/ApplicationMongo/pom.xml" />
         <option value="$PROJECT_DIR$/ApplicationDockerTemplate/pom.xml" />
         <option value="$PROJECT_DIR$/ApplicationDockerFromMaven/pom.xml" />
+        <option value="$PROJECT_DIR$/PageViewClient/pom.xml" />
+        <option value="$PROJECT_DIR$/PageViewModel/pom.xml" />
+        <option value="$PROJECT_DIR$/ApplicationDockerFromMaven/PageViewDao/pom.xml" />
+        <option value="$PROJECT_DIR$/PageViewEventModel/pom.xml" />
+        <option value="$PROJECT_DIR$/PageViewService/pom.xml" />
+        <option value="$PROJECT_DIR$/PageViewDao/pom.xml" />
       </list>
     </option>
   </component>

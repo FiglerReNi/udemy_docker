@@ -9,11 +9,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ApplicationDockerTemplate" />
         <module name="ApplicationSimple" />
+        <module name="PageViewService" />
         <module name="Docker" />
         <module name="ApplicationMongo" />
+        <module name="PageViewEventModel" />
         <module name="ApplicationDockerFromMaven" />
+        <module name="PageViewDao" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="page-view-client" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -22,6 +28,10 @@
       <module name="ApplicationMongo" options="-parameters" />
       <module name="ApplicationSimple" options="-parameters" />
       <module name="Docker" options="-parameters" />
+      <module name="PageViewDao" options="-parameters" />
+      <module name="PageViewEventModel" options="-parameters" />
+      <module name="PageViewService" options="-parameters" />
+      <module name="page-view-client" options="-parameters" />
     </option>
   </component>
 </project>
