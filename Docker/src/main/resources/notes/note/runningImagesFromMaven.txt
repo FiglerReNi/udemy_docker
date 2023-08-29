@@ -31,3 +31,7 @@ Példa project 1.fázis:
   PageViewService: Ezt tudjuk meghívni a webalkalmazásban, hogy az összeállított model-t küldje el az MQ-nak
   PageViewDao: Ezt az alkalmazást elindítva, kiveszi az MQ-ból az eseményt, átalakítja a PageViewEventModel-t entity-vé,
     és lementi adatbázisba.
+  Technikai:
+    elindítjuk az ApplicationDockerFromMaven-t és a PageViewDao-t IntelliJ-ben
+    localhost mysql adatbázist használjuk
+    RabbitMQ-t pedig dockerben: docker run -d --hostname docker-rabbitmq --name rabbitmq -p 8082:15672 -p 5671:5671 -p 5672:5672 rabbitmq:3-management
