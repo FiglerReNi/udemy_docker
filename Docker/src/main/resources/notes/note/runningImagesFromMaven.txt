@@ -27,7 +27,7 @@ Példa alkalmazás és használt eszközök:
   - Adatbázis (MySQL) - a microservice van vele kapcsolatban
 
 Példa project 1.fázis:
-  PageViewEventModel: Ez lesz a model amit a web alkalmazás összeállít, és amit a PageViewService elküld a RabbitMQ felé mint esemény.
+  PageViewEventModel: Ez lesz a model amit a web alkalmazás összeállít (ApplicationDockerFromMaven), és amit a PageViewService elküld a RabbitMQ felé mint esemény.
   PageViewService: Ezt tudjuk meghívni a webalkalmazásban, hogy az összeállított model-t küldje el az MQ-nak
   PageViewDao: Ezt az alkalmazást elindítva, kiveszi az MQ-ból az eseményt, átalakítja a PageViewEventModel-t entity-vé,
     és lementi adatbázisba.
