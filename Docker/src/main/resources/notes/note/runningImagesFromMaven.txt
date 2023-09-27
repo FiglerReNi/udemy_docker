@@ -35,3 +35,23 @@ Példa project 1.fázis:
     elindítjuk az ApplicationDockerFromMaven-t és a PageViewDao-t IntelliJ-ben
     localhost mysql adatbázist használjuk
     RabbitMQ-t pedig dockerben: docker run -d --hostname docker-rabbitmq --name rabbitmq -p 8082:15672 -p 5671:5671 -p 5672:5672 rabbitmq:3-management
+ Példa project 2.fázis:
+  Elindítjuk az ApplicationDockerFromMaven-t IntelliJ-ben
+  Indítunk dockerben egy mysql-t:
+    docker run -p 9991:3306 --name mysqldb -v C:/Users/figlerr/JAVA/db:/var/lib/mysql -e MYSQL_DATABASE=test -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql:8.0.16
+  Indítunk dockerben egy rabbitMQ-t:
+    docker run -d --hostname rabbitmq --name rabbitmq -p 8082:15672 -p 5671:5671 -p 5672:5672 rabbitmq:3-management
+  Csinálunk DockerFile-t a PageViewDao-hoz, fontos hogy az application.propertiesben jók legyenek a mysql és rabbit configok
+  Készítünk image-t:
+    mvn clean package docker:build (project könyvtárból)
+  Elindítjuk a docker konténert
+    docker run --name page-view-dao -d -p 8081:8081 --link rabbitmq:rabbitmq --link mysqldb:mysqldb figlerr/page-view-dao:latest
+  Az összes konténert egy network alá hozzuk:
+    docker network create mynetwork
+    docker network connect mynetwork mysqldb
+    docker network connect mynetwork rabbitmy
+    docker network connect mynetwork page-view-dao
+  A mysqldb-ben a test adatbázishoz full jogot kell adni a root@localhost usernek
+
+
+
