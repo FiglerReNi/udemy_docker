@@ -54,7 +54,10 @@ Példa project 1.fázis:
   A mysqldb-ben a test adatbázishoz full jogot kell adni a root@localhost usernek
   Példa project 3. fázis:
     Mind a négy alkalmazás dockerből fusson és automatikusan induljon a fabric8 és maven segítségével:
-      Kell legyen a PageViewDao-ból image localon, vagy legyen feltöltve a dockerhubra, hogy letölthető legyen
+      Kell legyen a PageViewDao-ból image, legyen feltöltve a dockerhubra, hogy letölthető legyen
+      Módosítani kell az ApplicationDockerFromMaven pom.xml-t
+      Kell legyen az ApplicationDockerFromMaven-ből image, legyen feltöltve a dockerhubra, hogy letölthető legyen
+      Parancsor ApplicationDockerFromMaven főkönyvtára: mvn docker:start vagy mvn docker:run
 
 
 

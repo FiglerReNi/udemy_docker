@@ -92,6 +92,73 @@
                 <ports>
                   <port>8080:8080</port>
                 </ports>
+                <links>
+                  <link>rabbitmq:rabbitmq</link>
+                </links>
+                <dependsOn>
+                  <container>rabbitmq</container>
+                  <container>page-view-dao</container>
+                </dependsOn>
+              </run>
+            </image>
+            <image>
+              <name>mysql:8.0.16</name>
+              <alias>mysqldb</alias>
+              <run>
+                <ports>
+                  <port>9991:3306</port>
+                </ports>
+                <volumes>
+                  <bind>C:/Users/figlerr/JAVA/db:/var/lib/mysql</bind>
+                </volumes>
+                <env>
+                  <MYSQL_DATABASE>test</MYSQL_DATABASE>
+                  <MYSQL_ALLOW_EMPTY_PASSWORD>yes</MYSQL_ALLOW_EMPTY_PASSWORD>
+                </env>
+                <!--ennyi időt hagyunk arra, hogy ez a konténer elinduljon-->
+                <wait>
+                  <time>10000</time>
+                </wait>
+              </run>
+            </image>
+            <image>
+              <name>rabbitmq:3-management</name>
+              <alias>rabbitmq</alias>
+              <run>
+                <ports>
+                  <port>5671:5671</port>
+                  <port>5672:5672</port>
+                  <port>8082:15672</port>
+                </ports>
+                <wait>
+                  <time>10000</time>
+                </wait>
+              </run>
+            </image>
+            <image>
+              <name>figlerr/page-view-dao</name>
+              <alias>page-view-dao</alias>
+              <run>
+                <ports>
+                  <port>8081:8081</port>
+                </ports>
+                <links>
+                  <link>rabbitmq:rabbitmq</link>
+                  <link>mysqldb:mysqldb</link>
+                </links>
+                <!--megvárja amíg ez a kettő elindul-->
+                <dependsOn>
+                  <container>mysqldb</container>
+                  <container>rabbitmq</container>
+                </dependsOn>
+                <wait>
+                  <http>
+                    <url>http://localhost:8081/actuator/health</url>
+                    <method>GET</method>
+                    <status>200...399</status>
+                  </http>
+                  <time>75000</time>
+                </wait>
               </run>
             </image>
           </images>
