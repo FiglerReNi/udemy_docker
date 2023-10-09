@@ -52,6 +52,9 @@ Példa project 1.fázis:
     docker network connect mynetwork rabbitmy
     docker network connect mynetwork page-view-dao
   A mysqldb-ben a test adatbázishoz full jogot kell adni a root@localhost usernek
+  Példa project 3. fázis:
+    Mind a négy alkalmazás dockerből fusson és automatikusan induljon a fabric8 és maven segítségével:
+      Kell legyen a PageViewDao-ból image localon, vagy legyen feltöltve a dockerhubra, hogy letölthető legyen
 
 
 
